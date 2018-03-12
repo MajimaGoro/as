@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>阿史</title>
+    <style>
+        body {
+            margin: 0  auto;
+            font-family: Tahoma, Verdana, Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="timer" style="text-align: center; margin: 0 auto; font-weight: bold; font-size: 36px; line-height: 60px;"></div>
+    <script type="text/javascript">// language="javascript"
+    function pad(num, n) {
+        var len = num.toString().length;
+        while(len < n) {
+            num = "0" + num;
+            len++;
+        }
+        return num;
+    }  
+    var startDate = new Date(2018, 2, 10, 21, 30, 0);   //年月日时分秒，月要减去1
+    function countDown()
+    {
+        var now = new Date();
+        var time = Math.floor((now - startDate)/1000);
+        var msec = pad((now - startDate) % 1000, 3);
+        var day = parseInt(time/3600/24);
+        var hour = parseInt((time % (3600*24))/3600);
+        var min = parseInt((time % 3600)/60);
+        var sec = pad(time % 60, 2);
+        document.getElementById('timer').innerHTML = '见不到阿史的第' + day + '天' + hour + '小时' + min + '分钟' + sec + '秒' + msec + '毫秒，想她';
+        setTimeout('countDown()', 90);
+    };
+    window.onload = function ()
+    {
+        countDown();
+    }
+
+    </script>
+</body>
+</html>
