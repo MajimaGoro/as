@@ -49,8 +49,8 @@
     <hr>
     <div class="update">
         <div class="announce2">
-            <div class="title">想一起去吃的东西（2/5）</div>
-            <div class="content">
+            <div id = "foodTitle" class="title">想一起去吃的东西（2/5）</div>
+            <div id = "foodList" class="content">
                 1、A区卤排骨<br>
                 <del>2、水饺<br></del>
                 <del>3、越南菜<br></del>
@@ -63,35 +63,69 @@
 
 
     <script type="text/javascript">// language="javascript"
-    function pad(num, n) {
-        var len = num.toString().length;
-        while(len < n) {
-            num = "0" + num;
-            len++;
+        function pad(num, n) {
+            var len = num.toString().length;
+            while(len < n) {
+                num = "0" + num;
+                len++;
+            }
+            return num;
+        }  
+        // var startDate = new Date(2018, 2, 10, 21, 30, 0);   //年月日时分秒，月要减去1  第一次约会（《小萝莉的猴神大叔》、吃饭）
+        // var startDate = new Date(2018, 2, 17, 20, 45, 0);   //第二次（《古墓丽影》、吃饭）
+        // var startDate = new Date(2018, 2, 19, 21, 25, 0);   //妹子上班被骂哭了，陪她吃饭
+    	// var startDate = new Date(2018, 2, 25, 22, 17, 0);      //发烧的后一天，吃饭
+        var startDate = new Date(2018, 2, 26, 15, 30, 0);   //2018年3月26日脱团啦
+        function countDown()
+        {
+            var now = new Date();
+            var time = Math.floor((now - startDate)/1000);
+            var msec = pad((now - startDate) % 1000, 3);
+            var day = parseInt(time/3600/24);
+            var hour = parseInt((time % (3600*24))/3600);
+            var min = parseInt((time % 3600)/60);
+            var sec = pad(time % 60, 2);
+            document.getElementById('timer').innerHTML = '和阿史在一起的第' + day + '天' + hour + '小时' + min + '分钟' + sec + '秒' + msec + '毫秒，每一天都很开心';
+            setTimeout('countDown()', 90);
+        };
+        window.onload = function ()
+        {
+            countDown();
         }
-        return num;
-    }  
-    // var startDate = new Date(2018, 2, 10, 21, 30, 0);   //年月日时分秒，月要减去1  第一次约会（《小萝莉的猴神大叔》、吃饭）
-    // var startDate = new Date(2018, 2, 17, 20, 45, 0);   //第二次（《古墓丽影》、吃饭）
-    // var startDate = new Date(2018, 2, 19, 21, 25, 0);   //妹子上班被骂哭了，陪她吃饭
-	// var startDate = new Date(2018, 2, 25, 22, 17, 0);      //发烧的后一天，吃饭
-    var startDate = new Date(2018, 2, 26, 15, 30, 0);   //2018年3月26日脱团啦
-    function countDown()
-    {
-        var now = new Date();
-        var time = Math.floor((now - startDate)/1000);
-        var msec = pad((now - startDate) % 1000, 3);
-        var day = parseInt(time/3600/24);
-        var hour = parseInt((time % (3600*24))/3600);
-        var min = parseInt((time % 3600)/60);
-        var sec = pad(time % 60, 2);
-        document.getElementById('timer').innerHTML = '和阿史在一起的第' + day + '天' + hour + '小时' + min + '分钟' + sec + '秒' + msec + '毫秒，每一天都很开心';
-        setTimeout('countDown()', 90);
-    };
-    window.onload = function ()
-    {
-        countDown();
-    }
+
+
+
+
+
+        // 想一起去吃的东西
+        function Food(foodName, isGot) {
+            this.name = foodName;
+            this.got = isGot;
+        }
+        Food.prototype.isGot = function() {
+            return this.got == true;
+        };
+
+        var foodList = new Array();
+        foodList.push(new Food("A区卤排骨", true));
+        foodList.push(new Food("水饺", true));
+        foodList.push(new Food("越南菜", true));
+        foodList.push(new Food("环球中心热狗", false));
+        foodList.push(new Food("玉子烧", false));
+
+        var amount = 0;
+        var s = "";
+        for (var index in foodList) {
+            if (foodList[index].isGot()) {
+                amount = amount + 1;
+                s = s + "<del>" + (parseInt(index) + 1) + "、" + foodList[index].name + "<br></del>";
+            }
+            else {
+                s = s + (parseInt(index) + 1) + "、" + foodList[index].name + "<br>";
+            }
+        }
+        document.getElementById("foodTitle").innerHTML = "想一起去吃的东西（" + amount + "/" + foodList.length + "）";
+        document.getElementById("foodList").innerHTML = s;
 
     </script>
 </body>
