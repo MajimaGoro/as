@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>阿史</title>
     <style>
@@ -36,7 +37,31 @@
             padding: 5px 20px;
             line-height: 24px;
         }
+
+        .map {
+            width: 100%;
+            text-align: center;
+        }
+        .map > div {
+            border: 2px solid #aaa;
+            border-radius: 8px 8px 0px 0px;
+            margin: 0 4% 20px 4%;
+        }
+        .map .announce2 {
+            border-color: rgb(248, 132, 145);
+        }
+        .map .title {
+            color: white;
+            font-weight: bold;
+            line-height: 30px;
+        }
+        .map .announce2 .title {
+            background-color: rgb(248, 132, 145);
+        }
     </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=awruoTXkKs0gcTUN3W100PW3FfkGfbCN">
+    //v3.0版本的引用方式：src="http://api.map.baidu.com/api?v=3.0&ak=您的密钥"
+    </script>
 </head>
 <body>
     <!-- <div style="text-align: center; margin: 0 auto;">
@@ -59,10 +84,20 @@
             </div>
         </div>
     </div>
+    <hr>
+    <div class="map">
+        <div class="announce2">
+            <div class="title">一起去过的地方</div>
+            <div id="container" style="height: 400px;"></div>
+        </div>
+    </div>
 
 
 
     <script type="text/javascript">// language="javascript"
+        /**
+         *  倒计时
+         */
         function pad(num, n) {
             var len = num.toString().length;
             while(len < n) {
@@ -96,8 +131,10 @@
 
 
 
-
-        // 想一起去吃的东西
+        /**
+         *  想一起去吃的东西
+         */
+        // Food类
         function Food(foodName, isGot) {
             this.name = foodName;
             this.got = isGot;
@@ -126,6 +163,39 @@
         }
         document.getElementById("foodTitle").innerHTML = "想一起去吃的东西（" + amount + "/" + foodList.length + "）";
         document.getElementById("foodList").innerHTML = s;
+
+
+
+        /**
+         *  一起去过的地方
+         */
+        // 创建地图实例
+        var map = new BMap.Map("container");
+        // 设置滚轮缩放
+        map.enableScrollWheelZoom(true);
+        // 平移缩放控件
+        map.addControl(new BMap.NavigationControl());
+        // 比例尺
+        map.addControl(new BMap.ScaleControl());
+
+        // Point类
+        function Point(x, y, title) {
+            this.point = new BMap.Point(x, y);
+            this.title = title;
+        }
+        var pointList = new Array();
+        pointList.push(new Point(104.090445, 30.660027, "大慈寺 2018.4.21"));
+        pointList.push(new Point(104.06405, 30.663222, "人民公园 2018.5.5"));
+
+        // 创建星星标记
+        var myIcon = new BMap.Icon("/as/image/marker.png", new BMap.Size(22, 22), {imageSize: new BMap.Size(22, 22)});
+        for (var index in pointList) {
+            var marker = new BMap.Marker(pointList[index].point, {icon: myIcon, title: pointList[index].title});
+            map.addOverlay(marker);
+        }
+        
+        // 初始化地图，设置中心点坐标和地图级别  
+        map.centerAndZoom(pointList[pointList.length-1].point, 15);
 
     </script>
 </body>
