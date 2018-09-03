@@ -200,6 +200,12 @@
         for (var index in pointList) {
             var marker = new BMap.Marker(pointList[index].point, {icon: myIcon, title: pointList[index].title});
             map.addOverlay(marker);
+            // 添加点击事件
+            marker.addEventListener("click", moveTo);
+        }
+        // 图标点击事件回调
+        function moveTo(event) {
+            map.panTo(event.target.getPosition());
         }
         
         // 初始化地图，设置中心点坐标和地图级别  
