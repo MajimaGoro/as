@@ -58,6 +58,27 @@
         .map .announce2 .title {
             background-color: rgb(248, 132, 145);
         }
+
+        .marry {
+            width: 100%;
+            text-align: center;
+        }
+        .marry > div {
+            border: 2px solid #aaa;
+            border-radius: 8px 8px 0px 0px;
+            margin: 0 4% 20px 4%;
+        }
+        .marry .announce2 {
+            border-color: rgb(248, 132, 145);
+        }
+        .marry .title {
+            color: white;
+            font-weight: bold;
+            line-height: 30px;
+        }
+        .marry .announce2 .title {
+            background-color: rgb(248, 132, 145);
+        }
     </style>
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=awruoTXkKs0gcTUN3W100PW3FfkGfbCN">
     //v3.0版本的引用方式：src="http://api.map.baidu.com/api?v=3.0&ak=您的密钥"
@@ -72,7 +93,7 @@
     </div>
     <div id="timer" style="text-align: center; margin: 0 auto; font-weight: bold; font-size: 36px; line-height: 60px;"></div>
     <hr>
-    <div class="update">
+    <!-- <div class="update">
         <div class="announce2">
             <div id = "foodTitle" class="title">想一起去吃的东西（2/5）</div>
             <div id = "foodList" class="content">
@@ -83,12 +104,27 @@
                 5、玉子烧
             </div>
         </div>
+    </div> -->
+    <div class="update">
+        <div class="announce2">
+            <div id = "PlaceTitle" class="title"></div>
+            <div id = "PlaceList" class="content"></div>
+        </div>
     </div>
     <hr>
     <div class="map">
         <div class="announce2">
             <div class="title">一起去过的地方</div>
             <div id="container" style="height: 400px;"></div>
+        </div>
+    </div>
+    <hr>
+    <div class="marry">
+        <div class="announce2">
+            <div class="title">2020.10.04 我们结婚了</div>
+            <div style="text-align: center; margin: 0 0 -4px 0;">
+                <img src="/as/image/Marry.jpg" alt="Marry" width="640" height="360">
+            </div>
         </div>
     </div>
 
@@ -135,38 +171,68 @@
          *  想一起去吃的东西
          */
         // Food类
-        function Food(foodName, isGot) {
-            this.name = foodName;
+        // function Food(foodName, isGot) {
+        //     this.name = foodName;
+        //     this.got = isGot;
+        // }
+        // Food.prototype.isGot = function() {
+        //     return this.got == true;
+        // };
+
+        // var foodList = new Array();
+        // foodList.push(new Food("A区卤排骨", true));
+        // foodList.push(new Food("水饺", true));
+        // foodList.push(new Food("岘港·越南料理", true));
+        // foodList.push(new Food("無狗热狗", true));
+        // foodList.push(new Food("玉子烧", true));
+        // foodList.push(new Food("东门豆腐脑面", false));
+        // foodList.push(new Food("鹭洲里川东长筷子耗儿鱼", true));
+        // foodList.push(new Food("饭团", true));
+
+        // var amount = 0;
+        // var s = "";
+        // for (var index in foodList) {
+        //     if (foodList[index].isGot()) {
+        //         amount = amount + 1;
+        //         s = s + "<del>" + (parseInt(index) + 1) + "、" + foodList[index].name + "<br></del>";
+        //     }
+        //     else {
+        //         s = s + (parseInt(index) + 1) + "、" + foodList[index].name + "<br>";
+        //     }
+        // }
+        // document.getElementById("foodTitle").innerHTML = "想一起去吃的东西（" + amount + "/" + foodList.length + "）";
+        // document.getElementById("foodList").innerHTML = s;
+
+        /**
+         *  想一起去的地方
+         */
+        // Place类
+        function Place(PlaceName, isGot) {
+            this.name = PlaceName;
             this.got = isGot;
         }
-        Food.prototype.isGot = function() {
+        Place.prototype.isGot = function() {
             return this.got == true;
         };
 
-        var foodList = new Array();
-        foodList.push(new Food("A区卤排骨", true));
-        foodList.push(new Food("水饺", true));
-        foodList.push(new Food("岘港·越南料理", true));
-        foodList.push(new Food("無狗热狗", true));
-        foodList.push(new Food("玉子烧", true));
-        foodList.push(new Food("东门豆腐脑面", false));
-        foodList.push(new Food("鹭洲里川东长筷子耗儿鱼", true));
-        foodList.push(new Food("饭团", true));
+        var PlaceList = new Array();
+        PlaceList.push(new Place("东京", true));
+        PlaceList.push(new Place("厦门", false));
+        PlaceList.push(new Place("关西", false));
 
         var amount = 0;
         var s = "";
-        for (var index in foodList) {
-            if (foodList[index].isGot()) {
+        for (var index in PlaceList) {
+            if (PlaceList[index].isGot()) {
                 amount = amount + 1;
-                s = s + "<del>" + (parseInt(index) + 1) + "、" + foodList[index].name + "<br></del>";
+                s = s + "<del>" + (parseInt(index) + 1) + "、" + PlaceList[index].name + "<br></del>";
             }
             else {
-                s = s + (parseInt(index) + 1) + "、" + foodList[index].name + "<br>";
+                s = s + (parseInt(index) + 1) + "、" + PlaceList[index].name + "<br>";
             }
         }
-        document.getElementById("foodTitle").innerHTML = "想一起去吃的东西（" + amount + "/" + foodList.length + "）";
-        document.getElementById("foodList").innerHTML = s;
-
+        document.getElementById("PlaceTitle").innerHTML = "想一起去的地方（" + amount + "/" + PlaceList.length + "）";
+        document.getElementById("PlaceList").innerHTML = s;
 
 
         /**
@@ -227,6 +293,7 @@
         pointList.push(new Point(139.776521, 35.718835, "东京国立博物馆 2019.10.2"));
         pointList.push(new Point(139.76199, 35.712666, "东京大学 2019.10.2"));
         pointList.push(new Point(139.774539, 35.710045, "阿美横町商店街 2019.10.3"));
+        pointList.push(new Point(104.230419, 30.672419, "满叔的院子 2020.8.18"));
 
 
         // 创建星星标记
